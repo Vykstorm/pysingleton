@@ -49,7 +49,7 @@ You can also use kwargs to send keyword arguments:
 class Foo:
   def __init__(a, b, c):
     print('calling Foo __init__')
-    self.value = a + b + c
+    self.value = a * b * c
     
 A,B = Foo(), Foo()
 print(A.value, B.value)
