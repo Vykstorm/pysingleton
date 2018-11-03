@@ -2,12 +2,12 @@
 '''
 This script shows an easy way to implement singleton pattern using decorators python feature.
 Extracted from: https://python-3-patterns-idioms-test.readthedocs.io/en/latest/Singleton.html
-Original idea by Chih-Chung Chang modifified by Vykstorm
+Original idea by Chih-Chung Chang modified by Vykstorm
 '''
 
 from inspect import isclass
 
-class Singleton:
+class _Singleton:
     '''
     This is a class decorator (to decorate classes also) to implement the singleton pattern.
     Dont use this decorator directly, instead you can use the singleton method as decorator, see below.
@@ -68,7 +68,7 @@ def singleton(*args, **kwargs):
     '''
     if len(args) == 1 and len(kwargs) == 0:
         cls = args[0]
-        return Singleton(cls)
+        return _Singleton(cls)
 
     if len(args) > 0:
         raise ValueError('Invalid decorator syntax. It must be: @singleton, @singleton() or @singleton([args = (...)], [kwargs = {...}])')
@@ -82,7 +82,7 @@ def singleton(*args, **kwargs):
     _kwargs = dict(kwargs['kwargs']) if 'kwargs' in kwargs else {}
 
     def _singleton(cls):
-        return Singleton(cls, *_args, **_kwargs)
+        return _Singleton(cls, *_args, **_kwargs)
     return _singleton
 
 
