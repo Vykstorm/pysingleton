@@ -8,22 +8,66 @@ Original idea by Chih-Chung Chang modifified by Vykstorm
 from inspect import isclass
 
 class Singleton:
+    '''
+    This is a class decorator (to decorate classes also) to implement the singleton pattern.
+    Dont use this decorator directly, instead you can use the singleton method as decorator, see below.
+    '''
     def __init__(self, cls, *args, **kwargs):
+        '''
+        Initializes this instance.
+        :param cls: It must be the class to be decorated
+        :param args: Additional position arguments to be included at singleton initialization
+        :param kwargs: Additional keyword arguments to be included at singleton initialization
+        '''
+        if not isclass(cls):
+            raise TypeError('Expected class at argument 1, got {}'.format(type(cls).__name__))
+
         self.cls = cls
         self.instance = None
         self.args = args
         self.kwargs = kwargs
 
     def __call__(self):
+        '''
+        This is called each time a new object of the decorated class need to be instantiated.
+        It creates the singleton object if it doesnt exist yet and return it passing the args and kwargs indicated at
+        this instance initialization as arguments to the singleton constructor.
+        '''
         if self.instance is None:
             self.instance = self.cls(*self.args, **self.kwargs)
         return self.instance
 
 def singleton(*args, **kwargs):
+    '''
+    This is a method that decorates class objects to implement singleton pattern.
+    The next syntaxes can be used to mark a class as a singleton using this decorator:
+    @singleton
+    class Foo:
+        ...
+
+    @singleton(args = [...], kwargs = {...})
+    class Foo:
+        ...
+
+    In the first example, singleton object constructor will not take any arguments.
+    On the other, args (which must be an iterable object) places positional arguments in the singleton object
+    constructor.
+    Also kwargs (dictionary) entries will be sent as keyword arguments on the constructor.
+
+    e.g:
+    @singleton(args = (1,2,3), kwargs = {'x':4,'y':5})
+    class Foo:
+        def __init__(a,b,c, x, y):
+            print(a+b+c,  x+y)
+
+    Foo() will print "6, 9"
+
+    :param args: 
+    :param kwargs:
+    :return:
+    '''
     if len(args) == 1 and len(kwargs) == 0:
         cls = args[0]
-        if not isclass(cls):
-            raise TypeError('Expected class at argument 1, got {}'.format(type(cls).__name__))
         return Singleton(cls)
 
     if len(args) > 0:
