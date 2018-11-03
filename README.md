@@ -14,6 +14,7 @@ class Foo:
 
 A,B = Foo(), Foo()
 print(A is B)
+
 ```
 ```
 True
@@ -32,6 +33,27 @@ class Foo:
     
 A,B = Foo(), Foo()
 print(A.value, B.value)
+
+```
+```
+calling Foo __init__
+6 6
+```
+
+args will send positional arguments to the constructor of Foo that is only called once (when singleton is created)
+You can also use kwargs to send keyword arguments:
+
+```python
+
+@singleton(args = [1, 2], kwargs = {'c' : 3})
+class Foo:
+  def __init__(a, b, c):
+    print('calling Foo __init__')
+    self.value = a + b + c
+    
+A,B = Foo(), Foo()
+print(A.value, B.value)
+
 ```
 ```
 calling Foo __init__
