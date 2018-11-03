@@ -17,7 +17,7 @@ print(A is B)
 ```
 ```
 True
-``
+```
 
 In the example, either A and B refers to the same object that is an instance of the class Foo
 If you want to pass arguments to the constructor of Foo, you can do it by adding decorator arguments...
