@@ -33,3 +33,7 @@ class Foo:
 A,B = Foo(), Foo()
 print(A.value, B.value)
 ```
+```
+calling Foo __init__
+6 6
+```
